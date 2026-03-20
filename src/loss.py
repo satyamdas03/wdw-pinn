@@ -16,6 +16,7 @@ def pde_residual(
     """
     Mean squared WDW residual: Ψ'' + (p/a)·Ψ' - U(a)·Ψ
     Uses autograd — a must have requires_grad=True.
+    Note: Implements the WDW equation multiplied by -1 (equivalent form); residual=0 is the same condition.
     """
     U = _wdw_potential(a)
     a_safe = a.clamp(min=1e-6)
