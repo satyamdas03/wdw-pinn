@@ -22,11 +22,14 @@ def wkb_amplitude(a: np.ndarray, p: float = 0.0) -> np.ndarray:
 
     Only valid for a > 1 where U(a) < 0.
     """
+    if np.any(a <= 1.0):
+        raise ValueError("wkb_amplitude requires a > 1 (classically allowed region only)")
+
     U = wdw_potential(a)
     envelope = np.abs(U) ** (-0.25)
     ordering_factor = a ** (-(p + 1) / 2)
     amp = envelope * ordering_factor
-    return amp / amp[0]
+    return amp / (amp[0] + 1e-12)
 
 
 def solve_wdw_reference(
@@ -45,6 +48,8 @@ def solve_wdw_reference(
     """
     def rhs(a, y):
         psi, dpsi = y
+        # Start from a_min > 0 to avoid the singular coefficient (p/a) at a=0.
+        # Frobenius series gives Ψ(a_min)=1, Ψ'(a_min)=0 for the regular solution branch.
         a_safe = max(a, 1e-8)
         U = wdw_potential(np.array([a_safe]))[0]
         d2psi = -(p / a_safe) * dpsi + U * psi
