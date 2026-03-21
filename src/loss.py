@@ -45,13 +45,16 @@ def bc_loss_hartle_hawking(
     psi_at_amax: torch.Tensor,
 ) -> torch.Tensor:
     """
-    Hartle-Hawking BCs:
-      1. Regularity: Ψ'(a_min) = 0
-      2. Decay: Ψ(a_max) → 0
+    Hartle-Hawking BC:
+      Regularity: Ψ'(a_min) = 0
+
+    Note: The HH wave function oscillates in the classically allowed region
+    (a > 1) and does NOT decay to zero at any finite a_max. Enforcing
+    Ψ(a_max)=0 is physically incorrect and was the root cause of high L2 error.
+    The normalization pin Ψ(a_ref)=1 in normalization_loss() is sufficient to
+    prevent the trivial Ψ=0 solution.
     """
-    loss_reg = torch.sum(dpsi_at_origin**2)
-    loss_decay = torch.sum(psi_at_amax**2)
-    return loss_reg + loss_decay
+    return torch.sum(dpsi_at_origin**2)
 
 
 def bc_loss_vilenkin(

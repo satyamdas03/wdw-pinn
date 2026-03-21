@@ -24,7 +24,7 @@ def validate_pinn_vs_scipy(p: float = 0.0, save_plot: bool = True) -> float:
     """
     print(f"\n=== Validating PINN for p={p} ===")
 
-    model = WDWNet(hidden_dim=128, n_layers=4, omega_0=30.0)
+    model = WDWNet(hidden_dim=128, n_layers=4, omega_0=5.0)
     losses = train_wdw(
         model, p=p,
         n_epochs_adam=3000,

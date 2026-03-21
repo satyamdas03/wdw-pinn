@@ -24,7 +24,7 @@ def validate_full(p: float, hidden_dim: int = 128, save_plot: bool = True) -> fl
     """
     print(f"\n=== Validating PINN for p={p} (hidden_dim={hidden_dim}) ===")
 
-    model = WDWNet(hidden_dim=hidden_dim, n_layers=4, omega_0=30.0)
+    model = WDWNet(hidden_dim=hidden_dim, n_layers=4, omega_0=5.0)
     losses = train_wdw(
         model, p=p,
         n_epochs_adam=5000,
