@@ -12,11 +12,11 @@ env/
 .coverage
 htmlcov/
 
-# Results (large files — commit selectively)
-results/*.png
-results/*.pdf
+# Results — commit figures and models, exclude large checkpoints
 results/*.npy
 !results/.gitkeep
+!results/*.png
+!results/*.pdf
 
 # Jupyter
 .ipynb_checkpoints/
